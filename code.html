@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Internship & Class Schedule</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdf4f9; /* Very light pinkish-purple background */
+        }
+        .schedule-card {
+            background-color: #ffffff;
+            border-radius: 1rem; /* Rounded corners */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Soft shadow */
+            transition: transform 0.2s ease-in-out;
+        }
+        .schedule-card:hover {
+            transform: translateY(-5px); /* Slight lift on hover */
+        }
+        .event-item {
+            border-left-width: 4px; /* Left border for color coding */
+            border-radius: 0.5rem; /* Slightly rounded corners for events */
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            display: flex; /* Use flexbox for alignment */
+            flex-direction: column; /* Stack content and tags vertically by default */
+            justify-content: space-between;
+        }
+        @media (min-width: 640px) { /* Small screens and up */
+            .event-item {
+                flex-direction: row; /* Align content and tags horizontally on larger screens */
+                align-items: center; /* Vertically center content */
+            }
+        }
+        .internship-event {
+            border-color: #d8b4fe; /* Light purple for internship */
+            background-color: #f3e8ff; /* Very light purple background */
+        }
+        .class-event {
+            border-color: #f472b6; /* Pink for classes */
+            background-color: #fce7f3; /* Very light pink background */
+        }
+        /* Refined Tag Styling */
+        .tag-container {
+            display: flex; /* Use flexbox for tags */
+            flex-wrap: wrap; /* Allow tags to wrap if needed */
+            gap: 0.5rem; /* Space between tags */
+            margin-top: 0.5rem; /* Space above tags on small screens */
+        }
+        @media (min-width: 640px) { /* Small screens and up */
+            .tag-container {
+                margin-top: 0; /* Remove top margin on larger screens */
+            }
+        }
+        .sync-tag, .async-tag, .location-tag {
+            padding: 0.125rem 0.6rem; /* Reduced vertical padding, slightly more horizontal */
+            border-radius: 9999px; /* Fully rounded/pill-shaped */
+            font-size: 0.7rem; /* Slightly smaller font */
+            font-weight: 500;
+            display: inline-flex; /* Ensure proper alignment and spacing */
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap; /* Prevent text from wrapping inside the tag */
+        }
+        .sync-tag {
+            background-color: #9fe6b0; /* Softer green for sync */
+            color: #333; /* Darker text for better contrast on light background */
+        }
+        .async-tag {
+            background-color: #fde68a; /* Softer yellow/orange for async */
+            color: #333; /* Darker text for better contrast on light background */
+        }
+        .location-tag {
+            background-color: #a1a1aa; /* Softer grey for location */
+            color: white;
+        }
+        .action-button {
+            background-color: #f472b6; /* Pink button */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .action-button:hover {
+            background-color: #ec4899; /* Darker pink on hover */
+            transform: translateY(-2px);
+        }
+        .action-button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 md:p-12 lg:p-16">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 text-center mb-10">
+            My Weekly Schedule
+        </h1>
+
+        <!-- Legend for event types -->
+        <div class="mb-8 p-4 bg-white rounded-xl shadow-md flex flex-wrap justify-center gap-4 text-sm font-medium">
+            <div class="flex items-center">
+                <span class="w-4 h-4 rounded-full bg-purple-400 mr-2"></span>
+                <span>Internship</span>
+            </div>
+            <div class="flex items-center">
+                <span class="w-4 h-4 rounded-full bg-pink-400 mr-2"></span>
+                <span>Classes</span>
+            </div>
+            <div class="flex items-center">
+                <span class="px-2 py-1 rounded-md bg-green-300 text-gray-700 mr-2">Sync</span>
+                <span>Synchronous</span>
+            </div>
+            <div class="flex items-center">
+                <span class="px-2 py-1 rounded-md bg-yellow-300 text-gray-700 mr-2">Async</span>
+                <span>Asynchronous</span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center gap-4 mb-8">
+            <button id="show-today-btn" class="action-button">Show Today's Schedule</button>
+            <button id="show-all-btn" class="action-button">Show All</button>
+        </div>
+
+        <div id="schedule-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Schedule content will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Schedule data structured for easy rendering
+        const scheduleData = {
+            Monday: [
+                { type: 'internship', time: '9:00 AM - 11:00 AM', name: 'Dev Degree Kickoff', sync: true },
+                { type: 'internship', time: '11:00 AM - 5:00 PM', name: 'Dev Degree Work Period', sync: false }
+            ],
+            Tuesday: [
+                { type: 'class', time: '8:35 AM - 11:25 AM', name: 'Intro to CS', location: 'Southam Hall 306', sync: true },
+                { type: 'class', time: '11:35 AM - 12:25 PM', name: 'Discrete Structures', location: 'Nicol Building 3020', sync: true },
+                { type: 'internship', time: '1:00 PM - 2:00 PM', name: 'Shopify Misc Work', sync: false },
+                { type: 'internship', time: '2:00 PM - 5:00 PM', name: 'Dev Degree Work Period', sync: false }
+            ],
+            Wednesday: [
+                { type: 'internship', time: '9:00 AM - 10:30 AM', name: 'Shopify Misc Work', sync: false },
+                { type: 'class', time: '11:35 AM - 2:25 PM', name: 'Intro to CS', location: 'Nicol Building 4010', sync: true },
+                { type: 'class', time: '2:35 PM - 3:55 PM', name: 'Discrete Structures', location: 'Richcraft Hall 2200', sync: true },
+                { type: 'internship', time: '4:00 PM - 5:00 PM', name: 'Shopify Misc Work', sync: false }
+            ],
+            Thursday: [
+                { type: 'class', time: '8:35 AM - 11:25 AM', name: 'Intro to CS', location: 'Southam Hall 306', sync: true },
+                { type: 'internship', time: '12:00 PM - 1:00 PM', name: 'Shopify Misc Work', sync: false },
+                { type: 'internship', time: '1:00 PM - 3:00 PM', name: 'Dev Degree Pair Programming', sync: true },
+                { type: 'internship', time: '3:00 PM - 5:00 PM', name: 'Dev Degree Work Period', sync: false }
+            ],
+            Friday: [
+                { type: 'internship', time: '9:00 AM - 10:30 AM', name: 'Dev Degree Work Period', sync: false },
+                { type: 'internship', time: '10:30 AM - 12:00 PM', name: 'Dev Degree Coffee & Code', sync: true },
+                { type: 'internship', time: '12:00 PM - 2:00 PM', name: 'Dev Degree Work Period', sync: false },
+                { type: 'class', time: '2:35 PM - 3:55 PM', name: 'Discrete Structures', location: 'Richcraft Hall 2200', sync: true },
+                { type: 'internship', time: '4:00 PM - 5:00 PM', name: 'Shopify Misc Work', sync: false }
+            ]
+        };
+
+        const scheduleContainer = document.getElementById('schedule-container');
+        const showTodayBtn = document.getElementById('show-today-btn');
+        const showAllBtn = document.getElementById('show-all-btn');
+
+        // Function to render the schedule, with an optional filter for a specific day
+        function renderSchedule(filterDay = null) {
+            scheduleContainer.innerHTML = ''; // Clear previous content
+            const daysToRender = filterDay ? [filterDay] : Object.keys(scheduleData);
+
+            daysToRender.forEach(day => {
+                const events = scheduleData[day];
+                if (events && events.length > 0) { // Only render if there are events for the day
+                    const dayCard = document.createElement('div');
+                    dayCard.className = 'schedule-card p-6'; // Tailwind classes for card styling
+
+                    // Day title
+                    dayCard.innerHTML = `<h2 class="text-2xl font-bold text-gray-800 mb-4">${day}</h2>`;
+
+                    // Events for the day
+                    events.forEach(event => {
+                        const eventDiv = document.createElement('div');
+                        // Apply different styles based on event type (internship/class)
+                        const eventTypeClass = event.type === 'internship' ? 'internship-event' : 'class-event';
+                        eventDiv.className = `event-item ${eventTypeClass}`;
+
+                        // Event details
+                        eventDiv.innerHTML = `
+                            <div>
+                                <p class="text-sm font-semibold text-gray-700">${event.time}</p>
+                                <p class="text-lg font-medium text-gray-900">${event.name}</p>
+                            </div>
+                            <div class="tag-container">
+                                <span class="${event.sync ? 'sync-tag' : 'async-tag'}">${event.sync ? 'Sync' : 'Async'}</span>
+                                ${event.location ? `<span class="location-tag">${event.location}</span>` : ''}
+                            </div>
+                        `;
+                        dayCard.appendChild(eventDiv);
+                    });
+                    scheduleContainer.appendChild(dayCard);
+                } else if (filterDay) {
+                    // If filtering and no events for the day, display a message
+                    const noEventsMessage = document.createElement('div');
+                    noEventsMessage.className = 'schedule-card p-6 text-center text-gray-600';
+                    noEventsMessage.textContent = `No scheduled events for ${day}.`;
+                    scheduleContainer.appendChild(noEventsMessage);
+                }
+            });
+
+            // If no days are rendered at all (e.g., if filterDay is invalid or no events for that day)
+            if (daysToRender.length === 0 || scheduleContainer.innerHTML === '') {
+                const noScheduleMessage = document.createElement('div');
+                noScheduleMessage.className = 'schedule-card p-6 text-center text-gray-600 col-span-full';
+                noScheduleMessage.textContent = 'No schedule information available.';
+                scheduleContainer.appendChild(noScheduleMessage);
+            }
+        }
+
+        // Get the current day of the week
+        function getTodayName() {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const date = new Date();
+            return days[date.getDay()];
+        }
+
+        // Event listeners for the buttons
+        showTodayBtn.addEventListener('click', () => {
+            renderSchedule(getTodayName());
+        });
+
+        showAllBtn.addEventListener('click', () => {
+            renderSchedule(); // Call without filter to show all days
+        });
+
+        // Initial render when the window loads (show all days by default)
+        window.onload = () => {
+            renderSchedule();
+        };
+    </script>
+</body>
+</html>
