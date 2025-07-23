@@ -10,7 +10,13 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fcf8f9; /* Fallback color */
+            background-color: #fdfbff; /* Even softer, almost white with a very faint lavender hint */
+            /* Seamless, wrapping heart pattern */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fce7f3' fill-opacity='0.6'%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(37.5,36.875) scale(0.25)'/%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(12.5, -9.875) scale(0.15)'/%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(12.5, 90.125) scale(0.15)'/%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(95, 69.5) scale(0.2)'/%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(-5, 69.5) scale(0.2)'/%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(75, 19.75) scale(0.1)'/%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(-12, 94.55) scale(0.18)'/%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(88, 94.55) scale(0.18)'/%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(-12, -5.45) scale(0.18)'/%3E%3Cpath d='M50 85L45.5 80.8C26.5 63.4 14 51.9 14 37.5C14 28.1 21.5 20 31 20C36.5 20 41.5 23.5 45 28.5L50 35L55 28.5C58.5 23.5 63.5 20 69 20C78.5 20 86 28.1 86 37.5C86 51.9 73.5 63.4 54.5 80.8L50 85Z' transform='translate(88, -5.45) scale(0.18)'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 12%; /* Increased size for a sparser, larger pattern */
+            background-position: top left;
+            background-attachment: scroll;
         }
         .schedule-card {
             background-color: rgba(255, 255, 255, 0.9); /* Slightly translucent white */
@@ -33,6 +39,7 @@
             justify-content: space-between;
             background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.95) 100%); /* Subtle gradient for events */
             box-shadow: 0 3px 6px -2px rgba(0, 0, 0, 0.03); /* Even softer shadow for event items */
+            transition: all 0.3s ease-in-out;
         }
         @media (min-width: 640px) {
             .event-item {
@@ -45,8 +52,14 @@
             background-color: #f9f0ff; /* Very light, almost white purple background */
         }
         .class-event {
-            border-color: #f7cac9; /* Very soft, muted pink for classes */
+            border-color: #ff88aa; /* More saturated pastel pink for classes */
             background-color: #fff0f5; /* Very light, almost white pink background */
+        }
+        /* Style for the currently active event */
+        .current-event {
+            border-left-color: #22d3ee; /* A vibrant, friendly cyan */
+            box-shadow: 0 0 25px -5px rgba(34, 211, 238, 0.7); /* Soft glow effect */
+            transform: scale(1.02);
         }
         /* Refined Tag Styling */
         .tag-container {
@@ -116,7 +129,7 @@
             color: #6b7280; /* Softer grey for event details */
         }
         .event-item p.text-lg {
-            color: #4a5568; /* Slightly darker for event name for readability */
+            color: #4a5252; /* Slightly darker for event name for readability */
         }
     </style>
 </head>
@@ -195,10 +208,53 @@
         const showTodayBtn = document.getElementById('show-today-btn');
         const showAllBtn = document.getElementById('show-all-btn');
 
+        /**
+         * Parses a time string (e.g., "9:00 AM") and returns a Date object for today.
+         * @param {string} timeStr - The time string to parse.
+         * @param {Date} date - The base date to set the time on.
+         * @returns {Date} A Date object with today's date and the parsed time.
+         */
+        function parseTime(timeStr, date) {
+            const [time, modifier] = timeStr.split(' ');
+            let [hours, minutes] = time.split(':');
+
+            if (hours === '12') {
+                hours = '00'; // Convert 12 AM/PM to 00 for easier calculation
+            }
+            if (modifier.toUpperCase() === 'PM') {
+                hours = parseInt(hours, 10) + 12;
+            }
+
+            const eventDate = new Date(date);
+            eventDate.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+            return eventDate;
+        }
+
+        /**
+         * Checks if an event is happening right now.
+         * @param {object} event - The event object with a 'time' property.
+         * @param {Date} now - The current date and time.
+         * @returns {boolean} True if the event is currently active.
+         */
+        function isCurrentEvent(event, now) {
+            try {
+                const [startTimeStr, endTimeStr] = event.time.split(' - ');
+                const startTime = parseTime(startTimeStr, now);
+                const endTime = parseTime(endTimeStr, now);
+                return now >= startTime && now <= endTime;
+            } catch (e) {
+                console.error("Error parsing time for event:", event, e);
+                return false;
+            }
+        }
+
         // Function to render the schedule, with an optional filter for a specific day
         function renderSchedule(filterDay = null) {
             scheduleContainer.innerHTML = ''; // Clear previous content
             const daysToRender = filterDay ? [filterDay] : Object.keys(scheduleData);
+            
+            const now = new Date();
+            const todayName = getTodayName();
 
             daysToRender.forEach(day => {
                 const events = scheduleData[day];
@@ -212,9 +268,13 @@
                     // Events for the day
                     events.forEach(event => {
                         const eventDiv = document.createElement('div');
-                        // Apply different styles based on event type (internship/class)
+                        
+                        // Check if this is the current event
+                        const isCurrent = (day === todayName) && isCurrentEvent(event, now);
+
+                        // Apply different styles based on event type (internship/class) and if it's current
                         const eventTypeClass = event.type === 'internship' ? 'internship-event' : 'class-event';
-                        eventDiv.className = `event-item ${eventTypeClass}`;
+                        eventDiv.className = `event-item ${eventTypeClass} ${isCurrent ? 'current-event' : ''}`;
 
                         // Event details
                         eventDiv.innerHTML = `
@@ -234,13 +294,13 @@
                     // If filtering and no events for the day, display a message
                     const noEventsMessage = document.createElement('div');
                     noEventsMessage.className = 'schedule-card p-6 text-center text-gray-600';
-                    noEventsMessage.textContent = `No scheduled events for ${day}.`;
+                    noEventsMessage.textContent = `No scheduled events for ${day}. Enjoy your day!`;
                     scheduleContainer.appendChild(noEventsMessage);
                 }
             });
 
             // If no days are rendered at all (e.g., if filterDay is invalid or no events for that day)
-            if (daysToRender.length === 0 || scheduleContainer.innerHTML === '') {
+            if (scheduleContainer.innerHTML === '') {
                 const noScheduleMessage = document.createElement('div');
                 noScheduleMessage.className = 'schedule-card p-6 text-center text-gray-600 col-span-full';
                 noScheduleMessage.textContent = 'No schedule information available.';
@@ -267,6 +327,8 @@
         // Initial render when the window loads (show all days by default)
         window.onload = () => {
             renderSchedule();
+            // Also, re-render every minute to keep the 'current event' highlight updated
+            setInterval(renderSchedule, 60000);
         };
     </script>
 </body>
