@@ -10,10 +10,13 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fcf8f9; /* Even lighter, almost white with a hint of pink */
-            /* Very subtle, delicate floral-like pattern */
-            background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fce7f3' fill-opacity='0.3' fill-rule='evenodd'%3E%3Cpath d='M9 0H6L0 6v3h3l6-6V0zm1 6V0h-1v5.01L5.01 10H10V6z'/%3E%3C/g%3E%3C/svg%3E");
-            background-repeat: repeat;
+            background-color: #fcf8f9; /* Fallback color */
+            /* Sakura background image */
+            background-image: url('https://i.pinimg.com/736x/27/13/23/271323f0afaff1ca47944ea6c6bfaab8.jpg'); /* Placeholder for a beautiful sakura image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center center; /* Center the image */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-attachment: fixed; /* Keep background fixed when scrolling */
         }
         .schedule-card {
             background-color: rgba(255, 255, 255, 0.9); /* Slightly translucent white */
