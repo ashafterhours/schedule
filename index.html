@@ -10,121 +10,147 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fdf4f9; /* Very light pinkish-purple background */
+            background-color: #fcf8f9; /* Even lighter, almost white with a hint of pink */
+            /* Very subtle, delicate floral-like pattern */
+            background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fce7f3' fill-opacity='0.3' fill-rule='evenodd'%3E%3Cpath d='M9 0H6L0 6v3h3l6-6V0zm1 6V0h-1v5.01L5.01 10H10V6z'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: repeat;
         }
         .schedule-card {
-            background-color: #ffffff;
-            border-radius: 1rem; /* Rounded corners */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Soft shadow */
-            transition: transform 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly translucent white */
+            border-radius: 1.75rem; /* Even more rounded corners */
+            box-shadow: 0 20px 30px -8px rgba(0, 0, 0, 0.08), 0 10px 15px -7px rgba(0, 0, 0, 0.04); /* Lighter, softer shadow */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.8); /* More visible, soft white border */
         }
         .schedule-card:hover {
-            transform: translateY(-5px); /* Slight lift on hover */
+            transform: translateY(-10px); /* More pronounced lift on hover */
+            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.12), 0 12px 20px -8px rgba(0, 0, 0, 0.06);
         }
         .event-item {
-            border-left-width: 4px; /* Left border for color coding */
-            border-radius: 0.5rem; /* Slightly rounded corners for events */
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.5rem;
-            display: flex; /* Use flexbox for alignment */
-            flex-direction: column; /* Stack content and tags vertically by default */
+            border-left-width: 6px; /* Slightly thicker left border */
+            border-radius: 1rem; /* More rounded corners for events */
+            padding: 0.9rem 1.3rem;
+            margin-bottom: 0.7rem;
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
+            background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.95) 100%); /* Subtle gradient for events */
+            box-shadow: 0 3px 6px -2px rgba(0, 0, 0, 0.03); /* Even softer shadow for event items */
         }
-        @media (min-width: 640px) { /* Small screens and up */
+        @media (min-width: 640px) {
             .event-item {
-                flex-direction: row; /* Align content and tags horizontally on larger screens */
-                align-items: center; /* Vertically center content */
+                flex-direction: row;
+                align-items: center;
             }
         }
         .internship-event {
-            border-color: #d8b4fe; /* Light purple for internship */
-            background-color: #f3e8ff; /* Very light purple background */
+            border-color: #d2b4de; /* Soft lavender purple for internship */
+            background-color: #f9f0ff; /* Very light, almost white purple background */
         }
         .class-event {
-            border-color: #f472b6; /* Pink for classes */
-            background-color: #fce7f3; /* Very light pink background */
+            border-color: #f7cac9; /* Very soft, muted pink for classes */
+            background-color: #fff0f5; /* Very light, almost white pink background */
         }
         /* Refined Tag Styling */
         .tag-container {
-            display: flex; /* Use flexbox for tags */
-            flex-wrap: wrap; /* Allow tags to wrap if needed */
-            gap: 0.5rem; /* Space between tags */
-            margin-top: 0.5rem; /* Space above tags on small screens */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem; /* Slightly larger gap between tags for clarity */
+            margin-top: 0.7rem; /* Space above tags on small screens */
         }
-        @media (min-width: 640px) { /* Small screens and up */
+        @media (min-width: 640px) {
             .tag-container {
-                margin-top: 0; /* Remove top margin on larger screens */
+                margin-top: 0;
             }
         }
         .sync-tag, .async-tag, .location-tag {
-            padding: 0.125rem 0.6rem; /* Reduced vertical padding, slightly more horizontal */
-            border-radius: 9999px; /* Fully rounded/pill-shaped */
-            font-size: 0.7rem; /* Slightly smaller font */
-            font-weight: 500;
-            display: inline-flex; /* Ensure proper alignment and spacing */
+            padding: 0.2rem 0.8rem; /* More padding for a softer pill shape */
+            border-radius: 9999px;
+            font-size: 0.8rem; /* Slightly larger font for readability */
+            font-weight: 500; /* Slightly less bold */
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            white-space: nowrap; /* Prevent text from wrapping inside the tag */
+            white-space: nowrap;
+            text-shadow: none; /* Removed text shadow for a cleaner look */
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Very subtle shadow for tags */
         }
         .sync-tag {
-            background-color: #9fe6b0; /* Softer green for sync */
-            color: #333; /* Darker text for better contrast on light background */
+            background-color: #e0f2f7; /* Very light blue for sync */
+            color: #6d8299; /* Soft blue-grey for contrast */
         }
         .async-tag {
-            background-color: #fde68a; /* Softer yellow/orange for async */
-            color: #333; /* Darker text for better contrast on light background */
+            background-color: #fef08a; /* Very light, soft yellow for async */
+            color: #8a7b4f; /* Soft yellow-brown for contrast */
         }
         .location-tag {
-            background-color: #a1a1aa; /* Softer grey for location */
-            color: white;
+            background-color: #e2e8f0; /* Very light grey for location */
+            color: #718096; /* Soft grey for contrast */
         }
         .action-button {
-            background-color: #f472b6; /* Pink button */
+            background: linear-gradient(45deg, #f7cac9, #d2b4de); /* Soft pink to lavender gradient */
             color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 0.9rem 2rem; /* Even larger padding */
+            border-radius: 1.25rem; /* More rounded */
+            font-weight: 700;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 8px 15px -3px rgba(247, 202, 201, 0.5), 0 4px 8px -2px rgba(210, 180, 222, 0.3); /* Softer, combined shadow */
+            border: none;
+            cursor: pointer;
         }
         .action-button:hover {
-            background-color: #ec4899; /* Darker pink on hover */
-            transform: translateY(-2px);
+            background: linear-gradient(45deg, #d2b4de, #f7cac9); /* Reverse gradient on hover */
+            transform: translateY(-5px) scale(1.03); /* More pronounced lift and scale */
+            box-shadow: 0 10px 20px -4px rgba(247, 202, 201, 0.7), 0 5px 10px -3px rgba(210, 180, 222, 0.4);
         }
         .action-button:active {
             transform: translateY(0);
-            box-shadow: none;
+            box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #9c27b0; /* A soft, elegant purple for heading */
+            text-shadow: 1px 1px 4px rgba(255,255,255,0.9); /* More prominent soft white shadow */
+        }
+        h2 {
+            color: #c084fc; /* A slightly lighter purple for day titles */
+            text-shadow: 0.5px 0.5px 3px rgba(255,255,255,0.8);
+        }
+        .event-item p {
+            color: #6b7280; /* Softer grey for event details */
+        }
+        .event-item p.text-lg {
+            color: #4a5568; /* Slightly darker for event name for readability */
         }
     </style>
 </head>
 <body class="p-4 sm:p-8 md:p-12 lg:p-16">
     <div class="max-w-6xl mx-auto">
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 text-center mb-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-center mb-10">
             My Weekly Schedule
         </h1>
 
         <!-- Legend for event types -->
         <div class="mb-8 p-4 bg-white rounded-xl shadow-md flex flex-wrap justify-center gap-4 text-sm font-medium">
             <div class="flex items-center">
-                <span class="w-4 h-4 rounded-full bg-purple-400 mr-2"></span>
+                <span class="w-4 h-4 rounded-full bg-purple-300 mr-2"></span>
                 <span>Internship</span>
             </div>
             <div class="flex items-center">
-                <span class="w-4 h-4 rounded-full bg-pink-400 mr-2"></span>
+                <span class="w-4 h-4 rounded-full bg-pink-300 mr-2"></span>
                 <span>Classes</span>
             </div>
             <div class="flex items-center">
-                <span class="px-2 py-1 rounded-md bg-green-300 text-gray-700 mr-2">Sync</span>
+                <span class="px-2 py-1 rounded-md bg-blue-100 text-gray-700 mr-2">Sync</span>
                 <span>Synchronous</span>
             </div>
             <div class="flex items-center">
-                <span class="px-2 py-1 rounded-md bg-yellow-300 text-gray-700 mr-2">Async</span>
+                <span class="px-2 py-1 rounded-md bg-yellow-100 text-gray-700 mr-2">Async</span>
                 <span>Asynchronous</span>
             </div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex justify-center gap-4 mb-8">
+        <div class="flex justify-center gap-6 mb-8">
             <button id="show-today-btn" class="action-button">Show Today's Schedule</button>
             <button id="show-all-btn" class="action-button">Show All</button>
         </div>
@@ -184,7 +210,7 @@
                     dayCard.className = 'schedule-card p-6'; // Tailwind classes for card styling
 
                     // Day title
-                    dayCard.innerHTML = `<h2 class="text-2xl font-bold text-gray-800 mb-4">${day}</h2>`;
+                    dayCard.innerHTML = `<h2 class="text-2xl font-bold mb-4">${day}</h2>`;
 
                     // Events for the day
                     events.forEach(event => {
