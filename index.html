@@ -62,6 +62,33 @@
             transform: scale(1.02);
         }
         /* Refined Tag Styling */
+        .sync-tag, .async-tag, .week-sync-tag, .week-async-tag {
+            padding: 0.2rem 0.8rem; /* More padding for a softer pill shape */
+            border-radius: 9999px;
+            font-size: 0.8rem; /* Slightly larger font for readability */
+            font-weight: 500; /* Slightly less bold */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            text-shadow: none; /* Removed text shadow for a cleaner look */
+            background-color: transparent; /* Make background transparent */
+            box-shadow: none; /* Remove box shadow */
+            color: #6d8299; /* Default text color for tags */
+        }
+
+        /* Specific style for location tags to make them truly invisible */
+        .location-tag {
+            padding: 0; /* Remove padding */
+            border-radius: 0; /* Remove border-radius */
+            background-color: transparent; /* Ensure transparent background */
+            box-shadow: none; /* Ensure no box shadow */
+            color: #6d8299; /* Maintain text color */
+            white-space: nowrap; /* Keep text on one line */
+            font-size: 0.8rem; /* Consistent font size */
+            font-weight: 500; /* Consistent font weight */
+        }
+
         .tag-container {
             display: flex;
             flex-wrap: wrap;
@@ -73,30 +100,8 @@
                 margin-top: 0;
             }
         }
-        .sync-tag, .async-tag, .location-tag {
-            padding: 0.2rem 0.8rem; /* More padding for a softer pill shape */
-            border-radius: 9999px;
-            font-size: 0.8rem; /* Slightly larger font for readability */
-            font-weight: 500; /* Slightly less bold */
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            white-space: nowrap;
-            text-shadow: none; /* Removed text shadow for a cleaner look */
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Very subtle shadow for tags */
-        }
-        .sync-tag {
-            background-color: #e0f2f7; /* Very light blue for sync */
-            color: #6d8299; /* Soft blue-grey for contrast */
-        }
-        .async-tag {
-            background-color: #fef08a; /* Very light, soft yellow for async */
-            color: #8a7b4f; /* Soft yellow-brown for contrast */
-        }
-        .location-tag {
-            background-color: #e2e8f0; /* Very light grey for location */
-            color: #718096; /* Soft grey for contrast */
-        }
+
+
         .action-button {
             background: linear-gradient(45deg, #f7cac9, #d2b4de); /* Soft pink to lavender gradient */
             color: white;
@@ -131,6 +136,137 @@
         .event-item p.text-lg {
             color: #4a5252; /* Slightly darker for event name for readability */
         }
+
+        /* Week View Specific Styles */
+        .week-grid-container {
+            display: grid;
+            /* First column for time, then 5 columns for Mon-Fri */
+            grid-template-columns: 80px repeat(5, 1fr); 
+            gap: 1px; /* Very small gap for grid lines */
+            background-color: #e2e8f0; /* Light grey for grid lines */
+            border-radius: 1rem;
+            /* Removed overflow: hidden; to allow absolute positioned events to extend */
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1);
+            border: 2px solid #cbd5e1; /* Stronger border for the entire grid */
+        }
+
+        /* Apply borders to all direct children of the grid container */
+        .week-grid-container > div {
+            border-bottom: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        /* Remove right border from cells in the last column */
+        .week-grid-container > div:nth-child(6n) { /* Selects every 6th element (last column) */
+            border-right: none;
+        }
+        /* Remove bottom border from cells in the last row */
+        /* This targets the last row of cells (including the time slot column) */
+        .week-grid-container > div:nth-last-child(-n + 6) { /* Selects the last 6 elements (last full row) */
+            border-bottom: none;
+        }
+
+
+        .week-grid-header {
+            padding: 0.75rem 0.2rem;
+            font-weight: 700;
+            background-color: #f0f4f8; /* Slightly darker header */
+            color: #6b7280;
+            border-bottom: 2px solid #cbd5e1; /* Thicker border below header */
+        }
+
+        .week-grid-time-slot {
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            font-weight: 500; /* Reverted to 500 for consistency */
+            background-color: #f8fafc; /* Lighter background for time column */
+            position: sticky; /* Make time column sticky */
+            left: 0;
+            z-index: 10; /* Ensure it's above events */
+            white-space: nowrap; /* Prevent time labels on the left from wrapping */
+            color: #94a3b8; /* Lighter color for time labels */
+        }
+        /* Ensure the top-left corner header has its right border */
+        .week-grid-container > .week-grid-header:first-child {
+            border-right: 1px solid #e2e8f0;
+        }
+
+
+        .week-grid-cell {
+            position: relative; /* Crucial: For positioning events within cells */
+            height: 40px; /* Exact height for a 30-minute slot */
+        }
+
+        .week-event-block {
+            position: absolute;
+            left: 2px; /* Ensure it's within the cell horizontally */
+            right: 2px; /* Ensure it's within the cell horizontally */
+            padding: 0.3rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            /* Allow text to wrap */
+            white-space: normal; 
+            /* Added for horizontal clipping of content */
+            overflow-x: hidden; 
+            text-overflow: clip; /* Ensure no ellipsis on the block itself */
+
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 5; /* Ensure events are above grid lines */
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            display: flex; /* Use flexbox for vertical alignment of content */
+            flex-direction: column;
+            justify-content: flex-start; /* Align wrapped text to the top */
+        }
+
+        .week-event-block > p.text-xs { /* Target the time paragraph specifically */
+            white-space: nowrap; /* Prevent wrapping of the time string */
+            overflow: hidden; /* Hide overflowing text */
+            text-overflow: ellipsis; /* Show ellipsis for clipped text */
+            width: 100%; /* Ensure it takes full available width of its parent */
+            box-sizing: border-box; /* Include padding in width calculation */
+            padding: 0; /* Remove padding from the time text itself to maximize space */
+        }
+
+
+        .week-event-block:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .week-internship-event {
+            background-color: #e9d5ff; /* Light purple */
+            border-left: 4px solid #a78bfa; /* Deeper purple */
+            color: #5b21b6; /* Darker text */
+        }
+
+        .week-class-event {
+            background-color: #ffe4e6; /* Light pink */
+            border-left: 4px solid #f472b6; /* Deeper pink */
+            color: #be185d; /* Darker text */
+        }
+
+        .week-current-event {
+            border-left-color: #22d3ee; /* Cyan highlight */
+            box-shadow: 0 0 15px -3px rgba(34, 211, 238, 0.7);
+            z-index: 15; /* Bring current event to front */
+        }
+
+        /* Responsive adjustments for week view */
+        @media (max-width: 768px) {
+            .week-grid-container {
+                grid-template-columns: 60px repeat(5, 1fr); /* Smaller time column */
+                font-size: 0.7rem;
+            }
+            .week-grid-header, .week-grid-time-slot, .week-grid-cell {
+                padding: 0.3rem 0.1rem;
+            }
+            .week-event-block {
+                font-size: 0.65rem;
+                padding: 0.2rem 0.3rem;
+            }
+        }
     </style>
 </head>
 <body class="p-4 sm:p-8 md:p-12 lg:p-16">
@@ -162,11 +298,18 @@
         <!-- Action Buttons -->
         <div class="flex justify-center gap-6 mb-8">
             <button id="show-today-btn" class="action-button">Show Today's Schedule</button>
-            <button id="show-all-btn" class="action-button">Show All</button>
+            <button id="show-all-btn" class="action-button">Show All Days</button>
+            <button id="show-week-btn" class="action-button">Show Week View</button>
         </div>
 
-        <div id="schedule-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Schedule content will be injected here by JavaScript -->
+        <!-- Daily/All Days Schedule Container -->
+        <div id="daily-schedule-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Schedule content for daily/all days view will be injected here by JavaScript -->
+        </div>
+
+        <!-- Week View Schedule Container -->
+        <div id="week-schedule-container" class="hidden relative">
+            <!-- Week view content will be injected here by JavaScript -->
         </div>
     </div>
 
@@ -174,39 +317,41 @@
         // Schedule data structured for easy rendering
         const scheduleData = {
             Monday: [
-                { type: 'internship', time: '9:00 AM - 11:00 AM', name: 'Dev Degree Kickoff', sync: true },
-                { type: 'internship', time: '11:00 AM - 5:00 PM', name: 'Dev Degree Work Period', sync: false }
+                { type: 'internship', time: '9:00 AM - 11:00 AM', name: 'Dev Degree Kickoff', sync: true, location: 'Online' },
+                { type: 'internship', time: '11:00 AM - 5:00 PM', name: 'Dev Degree Work Period', sync: false, location: 'Remote' }
             ],
             Tuesday: [
                 { type: 'class', time: '8:35 AM - 11:25 AM', name: 'Intro to CS', location: 'Southam Hall 306', sync: true },
                 { type: 'class', time: '11:35 AM - 12:25 PM', name: 'Discrete Structures', location: 'Nicol Building 3020', sync: true },
-                { type: 'internship', time: '1:00 PM - 2:00 PM', name: 'Shopify Misc Work', sync: false },
-                { type: 'internship', time: '2:00 PM - 5:00 PM', name: 'Dev Degree Work Period', sync: false }
+                { type: 'internship', time: '1:00 PM - 2:00 PM', name: 'Shopify Misc Work', sync: false, location: 'Remote' },
+                { type: 'internship', time: '2:00 PM - 5:00 PM', name: 'Dev Degree Work Period', sync: false, location: 'Remote' }
             ],
             Wednesday: [
-                { type: 'internship', time: '9:00 AM - 10:30 AM', name: 'Shopify Misc Work', sync: false },
+                { type: 'internship', time: '9:00 AM - 10:30 AM', name: 'Shopify Misc Work', sync: false, location: 'Remote' },
                 { type: 'class', time: '11:35 AM - 2:25 PM', name: 'Intro to CS', location: 'Nicol Building 4010', sync: true },
                 { type: 'class', time: '2:35 PM - 3:55 PM', name: 'Discrete Structures', location: 'Richcraft Hall 2200', sync: true },
-                { type: 'internship', time: '4:00 PM - 5:00 PM', name: 'Shopify Misc Work', sync: false }
+                { type: 'internship', time: '4:00 PM - 5:00 PM', name: 'Shopify Misc Work', sync: false, location: 'Remote' }
             ],
             Thursday: [
                 { type: 'class', time: '8:35 AM - 11:25 AM', name: 'Intro to CS', location: 'Southam Hall 306', sync: true },
-                { type: 'internship', time: '12:00 PM - 1:00 PM', name: 'Shopify Misc Work', sync: false },
-                { type: 'internship', time: '1:00 PM - 3:00 PM', name: 'Dev Degree Pair Programming', sync: true },
-                { type: 'internship', time: '3:00 PM - 5:00 PM', name: 'Dev Degree Work Period', sync: false }
+                { type: 'internship', time: '12:00 PM - 1:00 PM', name: 'Shopify Misc Work', sync: false, location: 'Remote' },
+                { type: 'internship', time: '1:00 PM - 3:00 PM', name: 'Dev Degree Pair Programming', sync: true, location: 'Online' },
+                { type: 'internship', time: '3:00 PM - 5:00 PM', name: 'Dev Degree Work Period', sync: false, location: 'Remote' }
             ],
             Friday: [
-                { type: 'internship', time: '9:00 AM - 10:30 AM', name: 'Dev Degree Work Period', sync: false },
-                { type: 'internship', time: '10:30 AM - 12:00 PM', name: 'Dev Degree Coffee & Code', sync: true },
-                { type: 'internship', time: '12:00 PM - 2:00 PM', name: 'Dev Degree Work Period', sync: false },
-                { type: 'class', time: '2:35 PM - 3:55 PM', name: 'Discrete Structures', location: 'Richcraft Hall 2200', sync: true },
-                { type: 'internship', time: '4:00 PM - 5:00 PM', name: 'Shopify Misc Work', sync: false }
+                { type: 'internship', time: '9:00 AM - 10:30 AM', name: 'Dev Degree Work Period', sync: false, location: 'Remote' },
+                { type: 'internship', time: '10:30 AM - 12:00 PM', name: 'Dev Degree Coffee & Code', sync: true, location: 'Online' },
+                { type: 'internship', time: '12:00 PM - 2:00 PM', name: 'Dev Degree Work Period', sync: false, location: 'Remote' },
+                { type: 'class', time: '2:35 PM - 3:55 PM', name: 'Discrete Structures', location: 'Richcraft Hall 2200', sync: true }, /* Changed to 5:00 PM for testing */
+                { type: 'internship', time: '4:00 PM - 5:00 PM', name: 'Shopify Misc Work', sync: false, location: 'Remote' }
             ]
         };
 
-        const scheduleContainer = document.getElementById('schedule-container');
+        const dailyScheduleContainer = document.getElementById('daily-schedule-container');
+        const weekScheduleContainer = document.getElementById('week-schedule-container');
         const showTodayBtn = document.getElementById('show-today-btn');
         const showAllBtn = document.getElementById('show-all-btn');
+        const showWeekBtn = document.getElementById('show-week-btn');
 
         /**
          * Parses a time string (e.g., "9:00 AM") and returns a Date object for today.
@@ -218,15 +363,17 @@
             const [time, modifier] = timeStr.split(' ');
             let [hours, minutes] = time.split(':');
 
-            if (hours === '12') {
-                hours = '00'; // Convert 12 AM/PM to 00 for easier calculation
-            }
-            if (modifier.toUpperCase() === 'PM') {
-                hours = parseInt(hours, 10) + 12;
+            let parsedHours = parseInt(hours, 10);
+            const parsedMinutes = parseInt(minutes, 10);
+
+            if (modifier && modifier.toUpperCase() === 'PM' && parsedHours !== 12) {
+                parsedHours += 12;
+            } else if (modifier && modifier.toUpperCase() === 'AM' && parsedHours === 12) {
+                parsedHours = 0; // 12 AM is 00 hours
             }
 
             const eventDate = new Date(date);
-            eventDate.setHours(parseInt(hours, 10), parseInt(minutes, 10), 0, 0);
+            eventDate.setHours(parsedHours, parsedMinutes, 0, 0);
             return eventDate;
         }
 
@@ -248,87 +395,296 @@
             }
         }
 
-        // Function to render the schedule, with an optional filter for a specific day
-        function renderSchedule(filterDay = null) {
-            scheduleContainer.innerHTML = ''; // Clear previous content
-            const daysToRender = filterDay ? [filterDay] : Object.keys(scheduleData);
-            
-            const now = new Date();
-            const todayName = getTodayName();
-
-            daysToRender.forEach(day => {
-                const events = scheduleData[day];
-                if (events && events.length > 0) { // Only render if there are events for the day
-                    const dayCard = document.createElement('div');
-                    dayCard.className = 'schedule-card p-6'; // Tailwind classes for card styling
-
-                    // Day title
-                    dayCard.innerHTML = `<h2 class="text-2xl font-bold mb-4">${day}</h2>`;
-
-                    // Events for the day
-                    events.forEach(event => {
-                        const eventDiv = document.createElement('div');
-                        
-                        // Check if this is the current event
-                        const isCurrent = (day === todayName) && isCurrentEvent(event, now);
-
-                        // Apply different styles based on event type (internship/class) and if it's current
-                        const eventTypeClass = event.type === 'internship' ? 'internship-event' : 'class-event';
-                        eventDiv.className = `event-item ${eventTypeClass} ${isCurrent ? 'current-event' : ''}`;
-
-                        // Event details
-                        eventDiv.innerHTML = `
-                            <div>
-                                <p class="text-sm font-semibold text-gray-700">${event.time}</p>
-                                <p class="text-lg font-medium text-gray-900">${event.name}</p>
-                            </div>
-                            <div class="tag-container">
-                                <span class="${event.sync ? 'sync-tag' : 'async-tag'}">${event.sync ? 'Sync' : 'Async'}</span>
-                                ${event.location ? `<span class="location-tag">${event.location}</span>` : ''}
-                            </div>
-                        `;
-                        dayCard.appendChild(eventDiv);
-                    });
-                    scheduleContainer.appendChild(dayCard);
-                } else if (filterDay) {
-                    // If filtering and no events for the day, display a message
-                    const noEventsMessage = document.createElement('div');
-                    noEventsMessage.className = 'schedule-card p-6 text-center text-gray-600';
-                    noEventsMessage.textContent = `No scheduled events for ${day}. Enjoy your day!`;
-                    scheduleContainer.appendChild(noEventsMessage);
-                }
-            });
-
-            // If no days are rendered at all (e.g., if filterDay is invalid or no events for that day)
-            if (scheduleContainer.innerHTML === '') {
-                const noScheduleMessage = document.createElement('div');
-                noScheduleMessage.className = 'schedule-card p-6 text-center text-gray-600 col-span-full';
-                noScheduleMessage.textContent = 'No schedule information available.';
-                scheduleContainer.appendChild(noScheduleMessage);
-            }
-        }
-
-        // Get the current day of the week
+        /**
+         * Get the current day of the week name (e.g., "Monday").
+         * @returns {string} The name of the current day.
+         */
         function getTodayName() {
             const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             const date = new Date();
             return days[date.getDay()];
         }
 
+        /**
+         * Renders the daily or all-days schedule view.
+         * @param {string|null} filterDay - The specific day to filter by, or null for all days.
+         */
+        function renderDailyView(filterDay = null) {
+            dailyScheduleContainer.innerHTML = ''; // Clear previous content
+            dailyScheduleContainer.classList.remove('hidden');
+            weekScheduleContainer.classList.add('hidden');
+
+            const daysToRender = filterDay ? [filterDay] : Object.keys(scheduleData);
+            
+            const now = new Date();
+            const todayName = getTodayName();
+
+            if (daysToRender.length === 0) {
+                const noScheduleMessage = document.createElement('div');
+                noScheduleMessage.className = 'schedule-card p-6 text-center text-gray-600 col-span-full';
+                noScheduleMessage.textContent = 'No schedule information available.';
+                dailyScheduleContainer.appendChild(noScheduleMessage);
+                return;
+            }
+
+            daysToRender.forEach(day => {
+                const events = scheduleData[day];
+                if (events && events.length > 0) {
+                    const dayCard = document.createElement('div');
+                    dayCard.className = 'schedule-card p-6';
+
+                    dayCard.innerHTML = `<h2 class="text-2xl font-bold mb-4">${day}</h2>`;
+
+                    events.forEach(event => {
+                        const eventDiv = document.createElement('div');
+                        
+                        const isCurrent = (day === todayName) && isCurrentEvent(event, now);
+
+                        const eventTypeClass = event.type === 'internship' ? 'internship-event' : 'class-event';
+                        eventDiv.className = `event-item ${eventTypeClass} ${isCurrent ? 'current-event' : ''}`;
+
+                        // Determine the location text based on event type
+                        let locationTagHtml = '';
+                        if (event.type === 'internship') { // Show Sync/Async for internships
+                            const tagClass = event.sync ? 'sync-tag' : 'async-tag';
+                            locationTagHtml = `<span class="${tagClass}">${event.sync ? 'Sync' : 'Async'}</span>`;
+                        } else if (event.location) { // For classes, show the actual location if it exists
+                            locationTagHtml = `<span class="location-tag">${event.location}</span>`;
+                        }
+
+
+                        eventDiv.innerHTML = `
+                            <div>
+                                <p class="text-sm font-semibold text-gray-700">${event.time}</p>
+                                <p class="text-lg font-medium text-gray-900">${event.name}</p>
+                            </div>
+                            <div class="tag-container">
+                                ${locationTagHtml}
+                            </div>
+                        `;
+                        dayCard.appendChild(eventDiv);
+                    });
+                    dailyScheduleContainer.appendChild(dayCard);
+                } else if (filterDay) {
+                    const noEventsMessage = document.createElement('div');
+                    noEventsMessage.className = 'schedule-card p-6 text-center text-gray-600';
+                    noEventsMessage.textContent = `No scheduled events for ${day}. Enjoy your day!`;
+                    dailyScheduleContainer.appendChild(noEventsMessage);
+                }
+            });
+
+            if (dailyScheduleContainer.innerHTML === '') {
+                const noScheduleMessage = document.createElement('div');
+                noScheduleMessage.className = 'schedule-card p-6 text-center text-gray-600 col-span-full';
+                noScheduleMessage.textContent = 'No schedule information available.';
+                dailyScheduleContainer.appendChild(noScheduleMessage);
+            }
+        }
+
+        /**
+         * Renders the week view schedule.
+         */
+        function renderWeekView() {
+            dailyScheduleContainer.classList.add('hidden');
+            weekScheduleContainer.classList.remove('hidden');
+            weekScheduleContainer.innerHTML = ''; // Clear previous content
+
+            const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            const timeSlots = [];
+            const gridStartTimeHours = 8;
+            const gridStartTimeMinutesOffset = 30; // Start at 8:30 AM
+            const gridEndTimeHours = 17; // End at 5:00 PM
+            const slotDurationMinutes = 30; // Each row is 30 minutes
+            const cellHeightPx = 40; // Height of a single 30-minute cell in pixels
+
+            // Generate time slots from 8:30 AM to 5:00 PM
+            for (let h = gridStartTimeHours; h <= gridEndTimeHours; h++) {
+                if (h === gridStartTimeHours) {
+                    // Start with 8:30 AM
+                    timeSlots.push(`${h % 12 === 0 ? 12 : h % 12}:30 ${h < 12 ? 'AM' : 'PM'}`);
+                } else {
+                    // Add :00 and :30 for subsequent hours
+                    timeSlots.push(`${h % 12 === 0 ? 12 : h % 12}:00 ${h < 12 ? 'AM' : 'PM'}`);
+                    if (h < gridEndTimeHours) { 
+                        timeSlots.push(`${h % 12 === 0 ? 12 : h % 12}:30 ${h < 12 ? 'AM' : 'PM'}`);
+                    }
+                }
+            }
+            // Ensure 5:00 PM is explicitly added if the loop ends at 17:00
+            const lastTimeSlot = `${gridEndTimeHours % 12 === 0 ? 12 : gridEndTimeHours % 12}:00 ${gridEndTimeHours < 12 ? 'AM' : 'PM'}`;
+            if (!timeSlots.includes(lastTimeSlot)) {
+                timeSlots.push(lastTimeSlot);
+            }
+            // Add an extra 30-minute slot to ensure events ending at 5:00 PM are fully visible
+            const extraTimeSlot = `${gridEndTimeHours % 12 === 0 ? 12 : gridEndTimeHours % 12}:30 ${gridEndTimeHours < 12 ? 'AM' : 'PM'}`;
+            timeSlots.push(extraTimeSlot);
+
+
+            const now = new Date();
+            const todayName = getTodayName();
+
+            // Create the main grid container
+            const grid = document.createElement('div');
+            grid.className = 'week-grid-container';
+            // Set grid-template-rows dynamically based on timeSlots length
+            grid.style.gridTemplateRows = `auto repeat(${timeSlots.length}, 40px)`; /* Fixed pixel height for rows */
+
+            // Store references to the grid cells for easier event placement
+            const gridCells = {}; // { 'Monday': [cell1, cell2, ...], 'Tuesday': [...] }
+
+            // Add empty top-left corner for header
+            const cornerHeader = document.createElement('div');
+            cornerHeader.className = 'week-grid-header';
+            grid.appendChild(cornerHeader);
+
+            // Add day headers
+            daysOfWeek.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'week-grid-header';
+                dayHeader.textContent = day;
+                grid.appendChild(dayHeader);
+                gridCells[day] = []; // Initialize array for this day's cells
+            });
+
+            // Add time slots and event cells
+            timeSlots.forEach((time, timeIndex) => { // Added timeIndex
+                const timeSlotDiv = document.createElement('div');
+                timeSlotDiv.className = 'week-grid-time-slot';
+                timeSlotDiv.textContent = time;
+                grid.appendChild(timeSlotDiv);
+
+                daysOfWeek.forEach(day => {
+                    const cell = document.createElement('div');
+                    cell.className = 'week-grid-cell';
+                    grid.appendChild(cell);
+                    gridCells[day].push(cell); // Store reference to this cell
+                });
+            });
+
+            // Populate events
+            daysOfWeek.forEach((day, dayIndex) => {
+                const events = scheduleData[day];
+                if (events) {
+                    events.forEach(event => {
+                        try {
+                            const [startTimeStr, endTimeStr] = event.time.split(' - ');
+                            const startTime = parseTime(startTimeStr, now);
+                            const endTime = parseTime(endTimeStr, now);
+
+                            const startMinutes = startTime.getHours() * 60 + startTime.getMinutes();
+                            const endMinutes = endTime.getHours() * 60 + endTime.getMinutes();
+
+                            // Calculate grid start time in minutes from midnight (8:30 AM)
+                            const gridStartTimeMinutesCalculated = gridStartTimeHours * 60 + gridStartTimeMinutesOffset;
+
+                            // Calculate the starting slot index (integer)
+                            const startSlotIndex = Math.floor((startMinutes - gridStartTimeMinutesCalculated) / slotDurationMinutes);
+                            
+                            // Calculate the offset in minutes within that starting slot
+                            const offsetInSlotMinutes = (startMinutes - gridStartTimeMinutesCalculated) % slotDurationMinutes;
+
+                            // Calculate total duration in minutes
+                            const totalDurationMinutes = endMinutes - startMinutes;
+
+                            if (startSlotIndex < 0 || totalDurationMinutes <= 0) {
+                                console.warn(`Event ${event.name} on ${day} has invalid time calculation or is outside grid range. Start: ${startTimeStr}, End: ${endTimeStr}`);
+                                return;
+                            }
+
+                            // Find the correct starting cell for this event
+                            const targetCell = gridCells[day][startSlotIndex];
+
+                            if (!targetCell) {
+                                console.warn(`Could not find target cell for event ${event.name} on ${day} at slot ${startSlotIndex}. Event might be outside defined grid time range.`);
+                                return;
+                            }
+
+                            const eventBlock = document.createElement('div');
+                            let eventClasses = ['week-event-block'];
+                            const isCurrent = (day === todayName) && isCurrentEvent(event, now);
+
+                            if (event.type === 'internship') {
+                                eventClasses.push('week-internship-event');
+                            } else {
+                                eventClasses.push('week-class-event');
+                            }
+
+                            if (isCurrent) {
+                                eventClasses.push('week-current-event');
+                            }
+                            
+                            eventBlock.className = eventClasses.join(' ');
+                            
+                            // Calculate top position relative to the targetCell
+                            eventBlock.style.top = `${(offsetInSlotMinutes / slotDurationMinutes) * cellHeightPx + 2}px`; // +2 for inset padding
+                            
+                            // Calculate height based on total duration
+                            eventBlock.style.height = `${(totalDurationMinutes / slotDurationMinutes) * cellHeightPx - 4}px`; // -4 for total vertical inset padding
+
+                            // Determine the location text based on event type
+                            let locationHtml = '';
+                            if (event.type === 'internship') { // Show Sync/Async for internships
+                                const tagClass = event.sync ? 'week-sync-tag' : 'week-async-tag';
+                                locationHtml = `<span class="${tagClass}">${event.sync ? 'Sync' : 'Async'}</span>`;
+                            } else if (event.location) { // For classes, show the actual location if it exists
+                                locationHtml = `<span class="location-tag">${event.location}</span>`;
+                            }
+
+                            // Apply white-space: nowrap to the time paragraph
+                            eventBlock.innerHTML = `
+                                <p class="font-bold">${event.name}</p>
+                                <p class="text-xs" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; box-sizing: border-box; padding: 0;">${event.time}</p>
+                                ${locationHtml}
+                            `;
+                            targetCell.appendChild(eventBlock); // Append to the specific cell
+                        } catch (e) {
+                            console.error(`Error processing event ${event.name} on ${day}:`, e);
+                        }
+                    });
+                }
+            });
+
+            weekScheduleContainer.appendChild(grid);
+        }
+
+        // Function to render the appropriate view based on the current state
+        let currentView = 'all'; // 'today', 'all', 'week'
+
+        function renderView(viewType, filterDay = null) {
+            currentView = viewType;
+            if (viewType === 'week') {
+                renderWeekView();
+            } else {
+                renderDailyView(filterDay);
+            }
+        }
+
         // Event listeners for the buttons
         showTodayBtn.addEventListener('click', () => {
-            renderSchedule(getTodayName());
+            renderView('today', getTodayName());
         });
 
         showAllBtn.addEventListener('click', () => {
-            renderSchedule(); // Call without filter to show all days
+            renderView('all'); // Call without filter to show all days
+        });
+
+        showWeekBtn.addEventListener('click', () => {
+            renderView('week');
         });
 
         // Initial render when the window loads (show all days by default)
         window.onload = () => {
-            renderSchedule();
+            renderView('all');
             // Also, re-render every minute to keep the 'current event' highlight updated
-            setInterval(renderSchedule, 60000);
+            setInterval(() => {
+                if (currentView === 'week') {
+                    renderWeekView();
+                } else if (currentView === 'today') {
+                    renderDailyView(getTodayName());
+                } else { // 'all' view
+                    renderDailyView();
+                }
+            }, 60000);
         };
     </script>
 </body>
